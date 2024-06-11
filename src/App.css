@@ -1,0 +1,5 @@
+.note-container{
+  background-image: url('./assets/BackgroundNotes.jpg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
