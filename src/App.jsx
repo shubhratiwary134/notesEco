@@ -20,9 +20,10 @@ function App() {
         'description':descriptionValue
       }
   ])
- 
-    
-  
+  }
+  function handleDeleteNotes(id){
+    const newNotes = notes.filter((note)=>note.id!==id)
+    setNotes(newNotes)
   }
 
   return (
@@ -37,7 +38,7 @@ function App() {
         <div>
         {notes.map((note)=>{
           return( 
-           <Note key={note.id} title={note.title} description={note.description} id={note.id} ></Note>
+           <Note key={note.id} title={note.title} description={note.description} id={note.id} handleDeleteNotes={handleDeleteNotes} ></Note>
           )
         })}
         </div>
