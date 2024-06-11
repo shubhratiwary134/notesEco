@@ -9,7 +9,6 @@ export default function Note({title,description,id,handleDeleteNotes}){
         <p>{description}</p>
         <button  onClick={()=>handleDeleteNotes(id)}>delete</button>
             </div>
-        
         </div>
             
         </>

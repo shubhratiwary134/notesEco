@@ -1,13 +1,15 @@
 import { useState } from 'react'
-import Note from './components/Note'
+import { db } from './firebase-config'
 
 import './App.css'
+import { NotesList } from './components/NotesList'
 
 function App() {
   const[notes,setNotes]=useState([])
   const [addNote,setAddNotes]=useState(false)
   const [inputValue,setInputValue]=useState('')
   const [descriptionValue,setDescriptionValue]=useState('')
+  console.log('db',db)
   function handleAddNotes() {
     setAddNotes(!addNote)
   }
@@ -36,12 +38,9 @@ function App() {
           <button onClick={handleStoringNote}>submit</button>
         </div>}
         <div>
-        {notes.map((note)=>{
-          return( 
-           <Note key={note.id} title={note.title} description={note.description} id={note.id} handleDeleteNotes={handleDeleteNotes} ></Note>
-          )
-        })}
+        <NotesList notes={notes} handleDeleteNotes={handleDeleteNotes}></NotesList>
         </div>
+
      
 
     </>
