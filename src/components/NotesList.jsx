@@ -13,7 +13,6 @@ export const NotesList = ({notes,handleDeleteNotes}) => {
           return( 
            <Note key={note.id} title={note.title} description={note.description} id={note.id} handleDeleteNotes={handleDeleteNotes} ></Note>
           )
-         
         })}
        
     </div>

@@ -9,6 +9,8 @@ import AddNotePage from './components/AddNotePage'
 
 function App() {
   const[notes,setNotes]=useState([])
+  // when the search bar is empty the value for the .includes('') is true for all therefore on empty input field the notes list is complete , this is better than the equal to condition as with this we target the substring .
+  const [searchBarInput,setSearchBarInput]=useState('')
   useEffect(()=>{
     async function getNotes(){
       try{
@@ -63,6 +65,7 @@ function App() {
     
 
   }
+ 
 
   return (
     <>
@@ -70,9 +73,10 @@ function App() {
     <div className='flex flex-col  max-w-screen-xl mr-auto ml-auto p-5'>
           <div className='flex flex-col items-center'>
           <h1>notes app</h1>
-          <SearchBar></SearchBar>
+          <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
           </div> 
-        <NotesList notes={notes} handleDeleteNotes={handleDeleteNotes} ></NotesList>
+          
+        <NotesList notes={notes.filter((note)=>note.title.toLowerCase().includes(searchBarInput)||note.description.toLowerCase().includes(searchBarInput))} handleDeleteNotes={handleDeleteNotes} ></NotesList>
       
         </div>
     
