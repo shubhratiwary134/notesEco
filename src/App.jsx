@@ -5,6 +5,7 @@ import './App.css'
 import { NotesList } from './components/NotesList'
 import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import SearchBar from './components/SearchBar'
+import AddNotePage from './components/AddNotePage'
 
 function App() {
   const[notes,setNotes]=useState([])
@@ -65,16 +66,19 @@ function App() {
 
   return (
     <>
-        <div className='flex flex-col  max-w-screen-lg mr-auto ml-auto p-5'>
+    
+    <div className='flex flex-col  max-w-screen-xl mr-auto ml-auto p-5'>
           <div className='flex flex-col items-center'>
           <h1>notes app</h1>
           <SearchBar></SearchBar>
-          </div>
-          
-        <NotesList notes={notes} handleDeleteNotes={handleDeleteNotes} handleStoringNote={handleStoringNote}></NotesList>
+          </div> 
+        <NotesList notes={notes} handleDeleteNotes={handleDeleteNotes} ></NotesList>
+      
         </div>
-
-     
+    
+        <AddNotePage handleStoringNote={handleStoringNote}></AddNotePage>
+  
+        
 
     </>
    

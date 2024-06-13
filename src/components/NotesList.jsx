@@ -5,17 +5,17 @@ import Note from './Note'
 
 
 
-export const NotesList = ({notes,handleDeleteNotes,handleStoringNote}) => {
+export const NotesList = ({notes,handleDeleteNotes}) => {
     
   return (
     <div className='Notes-list-container '>
-        {notes.map((note)=>{
+        {notes.map((note,)=>{
           return( 
            <Note key={note.id} title={note.title} description={note.description} id={note.id} handleDeleteNotes={handleDeleteNotes} ></Note>
           )
          
         })}
-        <AddNotePage  handleStoringNote={handleStoringNote}></AddNotePage>
+       
     </div>
   )
 }
