@@ -6,12 +6,19 @@ import { NotesList } from './components/NotesList'
 import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import SearchBar from './components/SearchBar'
 import AddNotePage from './components/AddNotePage'
+import { LoadingPage } from './components/LoadingPage'
 
 function App() {
   const[notes,setNotes]=useState([])
+  const [loading,setLoading]=useState(true)
   // when the search bar is empty the value for the .includes('') is true for all therefore on empty input field the notes list is complete , this is better than the equal to condition as with this we target the substring .
   const [searchBarInput,setSearchBarInput]=useState('')
   useEffect(()=>{
+  
+    setTimeout(()=>{
+      setLoading(false)
+    },11000)// 2 or 6 0r 11 
+  
     async function getNotes(){
       try{
         const notesCollection=collection(db,'Notes')
@@ -28,6 +35,8 @@ function App() {
       }
     }
     getNotes()
+
+
 },[])
   
   async function handleStoringNote(inputValue,descriptionValue){
@@ -69,22 +78,31 @@ function App() {
 
   return (
     <>
-    
-    <div className='flex flex-col  max-w-screen-xl mr-auto ml-auto p-5'>
-          <div className='flex flex-col items-center'>
-          <h1>notes app</h1>
-          <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
-          </div> 
-          
-        <NotesList notes={notes.filter((note)=>note.title.toLowerCase().includes(searchBarInput)||note.description.toLowerCase().includes(searchBarInput))} handleDeleteNotes={handleDeleteNotes} ></NotesList>
+    {
+      loading ?
+       <LoadingPage></LoadingPage> : 
+       <>
+       <div className='flex flex-col  max-w-screen-xl mr-auto ml-auto p-5'>
+       <div className='flex flex-col items-center'>
+       <h1>notes app</h1>
+       <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
+       </div> 
+       
+     <NotesList notes={notes.filter((note)=>note.title.toLowerCase().includes(searchBarInput)||note.description.toLowerCase().includes(searchBarInput))} handleDeleteNotes={handleDeleteNotes} ></NotesList>
+   
+     </div>
+ 
+     <AddNotePage handleStoringNote={handleStoringNote}></AddNotePage>
+       </>
       
-        </div>
+    }
+    </>
     
-        <AddNotePage handleStoringNote={handleStoringNote}></AddNotePage>
+   
   
         
 
-    </>
+    
    
   )
 }
