@@ -17,7 +17,7 @@ function App() {
   
     setTimeout(()=>{
       setLoading(false)
-    },11000)// 2 or 6 0r 11 
+    },5000)// 2 or 6 0r 11 
   
     async function getNotes(){
       try{
@@ -82,7 +82,7 @@ function App() {
       loading ?
        <LoadingPage></LoadingPage> : 
        <>
-       <div className='flex flex-col  max-w-screen-xl mr-auto ml-auto p-5'>
+       <div className='flex flex-col  max-w-screen-xl mr-auto ml-auto p-5 '>
        <div className='flex flex-col items-center'>
        <h1>notes app</h1>
        <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>

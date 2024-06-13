@@ -1,5 +1,5 @@
 
-import loadingGif from '../assets/Book.gif'
+import loadingGif from '../assets/Liquid.gif'
 export const LoadingPage = () => {
   return (
     <div className='flex justify-center items-center w-screen h-screen'>
