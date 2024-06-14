@@ -8,6 +8,7 @@ import SearchBar from './components/SearchBar'
 import AddNotePage from './components/AddNotePage'
 import { LoadingPage } from './components/LoadingPage'
 
+
 function App() {
   const[notes,setNotes]=useState([])
   const [loading,setLoading]=useState(true)
@@ -81,20 +82,33 @@ function App() {
     {
       loading ?
        <LoadingPage></LoadingPage> : 
-       <>
-       <div className='flex flex-col  max-w-screen-xl mr-auto ml-auto p-5 '>
-       <div className='flex flex-col items-center'>
-       <h1>notes app</h1>
+     
+      <>
+       
+       <div className='flex flex-col'>
+       <div className='flex justify-center shadow-xl   mb-4'>
        <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
        </div> 
-       
-     <NotesList notes={notes.filter((note)=>note.title.toLowerCase().includes(searchBarInput)||note.description.toLowerCase().includes(searchBarInput))} handleDeleteNotes={handleDeleteNotes} ></NotesList>
+       <div className='flex'>
+       <div className='w-1/4'>
+       sidebar
+       </div>
+       <div className='w-3/4 p-10'>
+       <NotesList notes={notes.filter((note)=>note.title.toLowerCase().includes(searchBarInput)||note.description.toLowerCase().includes(searchBarInput))} handleDeleteNotes={handleDeleteNotes} ></NotesList>
+       </div>
+       </div>
+      
+  
    
      </div>
- 
-     <AddNotePage handleStoringNote={handleStoringNote}></AddNotePage>
-       </>
+     
+      <AddNotePage handleStoringNote={handleStoringNote}></AddNotePage>
+     
+    
       
+      
+     
+     </> 
     }
     </>
     
