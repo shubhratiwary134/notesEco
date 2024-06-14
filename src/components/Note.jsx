@@ -12,7 +12,7 @@ export default function Note({title,description,id,handleDeleteNotes}){
     }
     return (
         <>
-        <div onClick={openModal}  className='note-container flex flex-col items-center bg-white  justify-around  shadow-xl  backdrop:blur   text-black p-10 '>
+        <div onClick={openModal}  className='note-container flex flex-col items-center bg-white  justify-around  shadow-xl  backdrop:blur   text-black p-10 hover:shadow-2xl'>
             <div className='w-full hover:scale-110 duration-200'>
             <h1 className="mb-4  text-3xl">{title}</h1> 
             <hr ></hr>

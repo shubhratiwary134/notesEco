@@ -7,6 +7,7 @@ import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import SearchBar from './components/SearchBar'
 import AddNotePage from './components/AddNotePage'
 import { LoadingPage } from './components/LoadingPage'
+import Sidebar from './components/Sidebar'
 
 
 function App() {
@@ -86,12 +87,12 @@ function App() {
       <>
        
        <div className='flex flex-col'>
-       <div className='flex justify-center shadow-xl   mb-4'>
+       <div className='flex  shadow-xl bg-[#F4F4F4]  mb-4'>
        <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
        </div> 
        <div className='flex'>
-       <div className='w-1/4'>
-       sidebar
+       <div className='w-1/4 '>
+       <Sidebar></Sidebar>
        </div>
        <div className='w-3/4 p-10'>
        <NotesList notes={notes.filter((note)=>note.title.toLowerCase().includes(searchBarInput)||note.description.toLowerCase().includes(searchBarInput))} handleDeleteNotes={handleDeleteNotes} ></NotesList>
