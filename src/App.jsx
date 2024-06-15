@@ -182,11 +182,11 @@ const handlePreviousPage = async () => {
       <>
        
        <div className='flex flex-col'>
-       <div className='flex  shadow-xl bg-[#F4F4F4]  mb-4'>
+       <div className='flex  shadow-xl bg-[#F4F4F4]  mb-4 '>
        <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
        </div> 
        <div className='flex'>
-       <div className='w-1/4 '>
+       <div className='w-1/5  shadow-2xl '>
        <Sidebar></Sidebar>
        </div>
        <div className='w-3/4 p-5 '>
