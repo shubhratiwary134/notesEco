@@ -68,7 +68,7 @@ export default function Note({title,description,id,handleDeleteNotes,pinned,refr
             
             
             <p className='text-sm p-2 overflow-scroll mb-5 sm:text-lg sm:p-5 lg:p-5 '>{description}</p>
-            <div className='w-full h-1 sm:flex bg-slate-500'></div>
+            <div className='w-full h-1 hidden sm:flex bg-slate-500'></div>
             <motion.button onClick={closeModal} className=' px-4 py-1 mt-2'
             whileHover={{scale:1.10}}
             >
