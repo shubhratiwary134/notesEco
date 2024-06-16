@@ -49,7 +49,7 @@ export default function Note({title,description,id,handleDeleteNotes,pinned,refr
          isOpen={modalState}
         onRequestClose={closeModal}
         contentLabel='Modal'
-         className="modal "
+         className="modal rounded-xl sm:rounded-none"
          overlayClassName="modal-overlay"
         >
             <motion.div
