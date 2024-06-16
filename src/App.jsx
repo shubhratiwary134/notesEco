@@ -8,7 +8,11 @@ import AddNotePage from './components/AddNotePage'
 import { LoadingPage } from './components/LoadingPage'
 import Sidebar from './components/Sidebar'
 import { motion } from 'framer-motion'
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
+import { FaAngleDown, FaAngleLeft, FaAngleRight, FaChevronCircleDown, FaChevronDown, FaSortDown } from 'react-icons/fa'
+import { IoIosArrowDropdownCircle, IoIosArrowDropupCircle } from 'react-icons/io'
+import { CiCirclePlus } from 'react-icons/ci'
+import { FaCirclePlus } from 'react-icons/fa6'
+import { FiPlusCircle } from 'react-icons/fi'
 
 function App() {
   const[notes,setNotes]=useState([])
@@ -18,7 +22,8 @@ function App() {
   const [firstVisible, setFirstVisible] = useState(null)
   const [isLastPage, setIsLastPage] = useState(false)
   const [isFirstPage, setIsFirstPage] = useState(true)
-
+  const [wrongInput,setWrongInput]=useState(false)
+  const [expanded,setExpanded]=useState(true)
   const pageSize = 6
   // when the search bar is empty the value for the .includes('') is true for all therefore on empty input field the notes list is complete , this is better than the equal to condition as with this we target the substring .
   const [searchBarInput,setSearchBarInput]=useState('')
@@ -108,7 +113,6 @@ const loadNotes = async (startAfterDoc = null, endBeforeDoc = null, isPrevious =
 const handleNextPage = async () => {
   if (lastVisible) {
     try {
-     
       setPageHistory([...pageHistory, firstVisible]);
       await loadNotes(lastVisible);
       setIsFirstPage(false);
@@ -141,6 +145,10 @@ const handlePreviousPage = async () => {
 
   
   async function handleStoringNote(inputValue,descriptionValue){
+    if(inputValue=='' || descriptionValue==''){
+      setWrongInput(true)
+      return
+    }
     
   try{
   const notesCollection = collection(db,'Notes')
@@ -199,7 +207,8 @@ loadNotes()
        <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
        </motion.div> 
        <div className='flex'>
-       <div className='w-1/5  shadow-2xl bg-white'>
+       <div className='w-1/5  shadow-2xl bg-white hidden lg:flex'>
+       
        <Sidebar></Sidebar>
        </div>
        <div className='w-3/4 p-5 '>
@@ -224,8 +233,19 @@ loadNotes()
    
      </div>
     
-
-      <AddNotePage handleStoringNote={handleStoringNote}></AddNotePage>
+      <div className='sticky bottom-2 p-5 flex flex-col items-center justify-center'>
+        <div  >
+          <button onClick={()=>{setExpanded(!expanded)}} >
+            {expanded ? <FaCirclePlus size={48}/> : <FaSortDown size={72}  />  }
+            
+          </button>
+        </div>
+        <div className={`w-full  justify-center ${expanded ? 'hidden':'flex'}` }>
+        <AddNotePage handleStoringNote={handleStoringNote} wrongInput={wrongInput} setWrongInput={setWrongInput}></AddNotePage>
+        </div>
+        
+      </div>
+     
      
     
       
