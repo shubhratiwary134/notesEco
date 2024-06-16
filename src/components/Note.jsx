@@ -60,7 +60,7 @@ export default function Note({title,description,id,handleDeleteNotes,pinned,refr
             >
                 <div className='flex w-full justify-between'>
                 <h1 className='mb-6 text-slate-700 text-xl sm:text-4xl md:text-5xl lg:text-6xl font-mono'>{title}</h1>
-                <div className='w-full h-1 bg-slate-500'></div>
+                <div className='w-full h-1 hidden sm:flex bg-slate-500'></div>
             <button onClick={(e) => { e.stopPropagation(); handlePinNote(); }}>
             {pinned ? <MdPinDrop size={32} /> : <MdOutlinePinDrop size={32} />}
           </button>
@@ -68,7 +68,7 @@ export default function Note({title,description,id,handleDeleteNotes,pinned,refr
             
             
             <p className='text-sm p-2 overflow-scroll mb-5 sm:text-lg sm:p-5 lg:p-5 '>{description}</p>
-            <div className='w-full h-1 bg-slate-500'></div>
+            <div className='w-full h-1 sm:flex bg-slate-500'></div>
             <motion.button onClick={closeModal} className=' px-4 py-1 mt-2'
             whileHover={{scale:1.10}}
             >
