@@ -11,8 +11,9 @@ export default function SearchBar({setSearchBarInput}){
         </div>
             <div className="my-8 md:my-10 lg:my-12 xl:my-16  px-2 py-1 sm:p-2 bg-white  w-3/5   flex gap-2 items-center">
                 <FaSearch/>
-                <input type="text" placeholder="search "   onChange={(e)=>{setSearchBarInput(e.target.value) 
-                  }} className="w-full focus:outline-none placeholder:italic placeholder:font-bold placeholder:text-black "></input>
+                <input type="text" placeholder="search "   onChange={(e)=>{setSearchBarInput(e.target.value.toLowerCase()) 
+                  
+                }} className="w-full focus:outline-none placeholder:italic placeholder:font-bold placeholder:text-black "></input>
                
             </div>
         </div>
