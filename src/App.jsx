@@ -207,7 +207,7 @@ loadNotes()
        <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
        </motion.div> 
        <div className='flex  lg:justify-between '>
-       <div className=' shadow-2xl bg-white hidden lg:flex lg:w-1/5'>
+       <div className=' shadow-2xl bg-white hidden md:flex lg:w-1/5'>
        <Sidebar></Sidebar>
        </div>
        <div className='w-full flex flex-col items-center p-5 sm:items-stretch'>
