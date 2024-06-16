@@ -2,7 +2,7 @@
 @keyframes modalFadeIn {
   from {
     opacity: 0;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -100%);
   }
   to {
     opacity: 1;
@@ -21,18 +21,19 @@
 
 .modal {
   position: absolute;
+  width: 90%;
+  height: 90%;
   top: 50%;
   left: 50%;
   right: auto;
   bottom: auto;
-  margin-right: -50%;
   transform: translate(-50%, -50%);
   background: white;
   padding: 20px;
-  max-width: 90%;
-  max-height: 90%;
+ 
   overflow: auto;
-  border-radius: 8px;
+  
+  
   outline: none;
   animation: modalFadeIn 0.5s ease-out;
 }

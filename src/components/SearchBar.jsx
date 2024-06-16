@@ -5,7 +5,7 @@ export default function SearchBar({setSearchBarInput}){
    
     return (
         <>
-        <div className="flex justify-start">
+        <div className="flex justify-start ">
         <div className="w-1/5 ">
             <img src={logo} className="max-w-full"></img>
         </div>

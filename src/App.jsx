@@ -2,13 +2,12 @@ import { useEffect,useState } from 'react'
 import { db } from './firebase-config'
 import './App.css'
 import { NotesList } from './components/NotesList'
-import { addDoc, collection, deleteDoc, doc, getDocs,query,orderBy,limit,startAfter, endBefore, limitToLast } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDocs,query,orderBy,limit,startAfter, endBefore, limitToLast,updateDoc } from 'firebase/firestore'
 import SearchBar from './components/SearchBar'
 import AddNotePage from './components/AddNotePage'
 import { LoadingPage } from './components/LoadingPage'
 import Sidebar from './components/Sidebar'
-import { BsArrowRightCircle } from "react-icons/bs";
-import { BsArrowLeftCircle } from "react-icons/bs";
+import { motion } from 'framer-motion'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 
 function App() {
@@ -57,29 +56,30 @@ fetchInitialNotes()
 
 },[])
 
-const loadNotes = async (startAfterDoc = null, endBeforeDoc = null,isPrevious = false) => {
-  
+const loadNotes = async (startAfterDoc = null, endBeforeDoc = null, isPrevious = false) => {
   try {
     const notesCollection = collection(db, 'Notes');
-    let notesQuery = query(notesCollection, orderBy('timeStamp'), limit(pageSize));
-    
+    let notesQuery;
 
     if (startAfterDoc) {
-      notesQuery = query(notesQuery, startAfter(startAfterDoc), limit(pageSize));
+      notesQuery = query(notesCollection, orderBy('pinned', 'desc'), orderBy('timeStamp', 'desc'), startAfter(startAfterDoc), limit(pageSize));
       setIsFirstPage(false);
     } else if (endBeforeDoc) {
-      notesQuery = query(notesQuery, endBefore(endBeforeDoc), limitToLast(pageSize));
+      notesQuery = query(notesCollection, orderBy('pinned', 'desc'), orderBy('timeStamp', 'desc'), endBefore(endBeforeDoc), limitToLast(pageSize));
       setIsLastPage(false);
     } else {
+      notesQuery = query(notesCollection, orderBy('pinned', 'desc'), orderBy('timeStamp', 'desc'), limit(pageSize));
       setIsFirstPage(true);
       setIsLastPage(false);
     }
 
     const noteSnapshot = await getDocs(notesQuery);
+    
     const notesArray = noteSnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
+   
 
     setNotes(notesArray);
 
@@ -87,14 +87,20 @@ const loadNotes = async (startAfterDoc = null, endBeforeDoc = null,isPrevious = 
       setFirstVisible(noteSnapshot.docs[0]);
       setLastVisible(noteSnapshot.docs[noteSnapshot.docs.length - 1]);
       if (!isPrevious) {
-        setPageHistory([...pageHistory, noteSnapshot.docs[0]]);
+        setPageHistory(prevHistory => [...prevHistory, noteSnapshot.docs[0]]); // Highlighted Change
+
       }
     } else {
       setFirstVisible(null);
       setLastVisible(null);
     }
+    if (noteSnapshot.docs.length < pageSize) {
+      setIsLastPage(true);
+    } else {
+      setIsLastPage(false);
+    }
   } catch (error) {
-    console.error('Could not fetch data ', error);
+    console.error('Could not fetch data', error);
   }
 };
 
@@ -105,7 +111,6 @@ const handleNextPage = async () => {
      
       setPageHistory([...pageHistory, firstVisible]);
       await loadNotes(lastVisible);
-     
       setIsFirstPage(false);
     } catch (error) {
       console.error('Error loading next page:', error);
@@ -114,21 +119,20 @@ const handleNextPage = async () => {
 };
 
 const handlePreviousPage = async () => {
-  if (pageHistory.length > 0) {
-    try {
-      
-      const previousPage = pageHistory[pageHistory.length - 1];
-      await loadNotes(null, previousPage);
-      setPageHistory(pageHistory.slice(0, -1));
-      
-      if (pageHistory.length === 1) {
-        setIsFirstPage(true);
-      }
-    } catch (error) {
-      console.error('Error loading previous page:', error);
+  if (pageHistory.length > 0) { 
+    const previousPage = pageHistory[pageHistory.length - 1]; 
+    await loadNotes(null, previousPage, true);
+    setPageHistory(prevHistory => prevHistory.slice(0, -1)); 
+    if (pageHistory.length === 2) { 
+      setIsFirstPage(true); 
     }
   }
+  
+  
 };
+
+
+
 
 
 
@@ -146,17 +150,20 @@ const handlePreviousPage = async () => {
     title:inputValue,
     description:descriptionValue,
     timeStamp: new Date(),
+    pinned:false,
   })
   setNotes([...notes,{
     id:NoteRef.id,//here we use the id provided by the firebase 
     title:inputValue,
     description:descriptionValue,
-    timeStamp: new Date()
+    timeStamp: new Date(),
+    pinned:false,
   }])
 }catch(error){
   console.error('could not add the notes')
 }
-  
+  // to make sure the we read again when the notes are stored 
+loadNotes()
       
 
   }
@@ -165,9 +172,11 @@ const handlePreviousPage = async () => {
       const noteToBeDeleted = await doc(db,'Notes',id)
     deleteDoc(noteToBeDeleted)
     setNotes(notes.filter((note)=>note.id!==id))
+    loadNotes()
     }catch(error){
       console.error('error while deleting')
     }
+
     
 
   }
@@ -182,11 +191,15 @@ const handlePreviousPage = async () => {
       <>
        
        <div className='flex flex-col'>
-       <div className='flex  shadow-xl bg-[#F4F4F4]  mb-4 '>
+       <motion.div className='flex  shadow-xl bg-[#F4F4F4]  mb-4 '
+       initial={{opacity:0}}
+       animate={{opacity:1}}
+       transition={{duration:1}}
+       >
        <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
-       </div> 
+       </motion.div> 
        <div className='flex'>
-       <div className='w-1/5  shadow-2xl '>
+       <div className='w-1/5  shadow-2xl bg-white'>
        <Sidebar></Sidebar>
        </div>
        <div className='w-3/4 p-5 '>
@@ -199,7 +212,10 @@ const handlePreviousPage = async () => {
        </button>
        </div>
        
-       <NotesList notes={notes.filter((note)=>note.title.toLowerCase().includes(searchBarInput)||note.description.toLowerCase().includes(searchBarInput))} handleDeleteNotes={handleDeleteNotes} ></NotesList>
+       <NotesList notes={notes.filter((note)=>note.title.toLowerCase().includes(searchBarInput)||note.description.toLowerCase().includes(searchBarInput))}
+        handleDeleteNotes={handleDeleteNotes} 
+        refreshNotes={loadNotes}
+        ></NotesList>
        
        </div>
        </div>
