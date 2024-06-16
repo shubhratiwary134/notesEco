@@ -197,8 +197,8 @@ loadNotes()
        <LoadingPage></LoadingPage> : 
      
       <>
-       
-       <div className='flex flex-col'>
+       <div className='flex flex-col items-center' >
+       <div className='flex flex-col '>
        <motion.div className='flex  shadow-xl bg-[#F4F4F4]  mb-4 '
        initial={{opacity:0}}
        animate={{opacity:1}}
@@ -206,13 +206,12 @@ loadNotes()
        >
        <SearchBar setSearchBarInput={setSearchBarInput}></SearchBar>
        </motion.div> 
-       <div className='flex'>
-       <div className='w-1/5  shadow-2xl bg-white hidden lg:flex'>
-       
+       <div className='flex  lg:justify-between '>
+       <div className=' shadow-2xl bg-white hidden lg:flex lg:w-1/5'>
        <Sidebar></Sidebar>
        </div>
-       <div className='w-3/4 p-5 '>
-       <div className='flex justify-between m-4 p-4'>
+       <div className='w-full flex flex-col items-center p-5 sm:items-stretch'>
+       <div className='flex justify-between p-4'>
        <button onClick={handlePreviousPage} disabled={isFirstPage} className='hover:cursor-pointer '>
        <FaAngleLeft size={36} className='hover:scale-125 duration-200' />
        </button>
@@ -233,7 +232,7 @@ loadNotes()
    
      </div>
     
-      <div className='sticky bottom-2 p-5 flex flex-col items-center justify-center'>
+      <div className='w-full sticky bottom-2 p-5 flex flex-col items-center justify-center'>
         <div  >
           <button onClick={()=>{setExpanded(!expanded)}} >
             {expanded ? <FaCirclePlus size={48}/> : <FaSortDown size={72}  />  }
@@ -245,6 +244,8 @@ loadNotes()
         </div>
         
       </div>
+       </div>
+       
      
      
     

@@ -17,7 +17,7 @@ export default function Sidebar(){
             </div>
             <div className="p-10 flex gap-2  items-center hover:bg-slate-300 hover:cursor-pointer hover:translate-y-5 duration-300 mb-2">
                 <IoPencil size={24}/>
-            <p className="text-xl">Edit labels</p>
+            <p className="text-xl">Edit</p>
             </div>
 
             <div className="p-10 flex gap-2  items-center hover:bg-slate-300 hover:cursor-pointer hover:translate-y-5   duration-300 mb-2">
